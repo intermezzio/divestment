@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Poppins&display=swap" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -34,7 +34,7 @@
       </div>
       <div class="col-sm-4" style="margin-top:10px">
           <div class="side-image" >
-            <img src="images/logo.png" alt="rain, rain" class="side-image" style="height:16em">
+            <img src="{{ url_for('static', filename='css/images/logo.png') }}" alt="rain, rain" class="side-image" style="height:16em">
           </div>
       </div>
     </div>
@@ -81,19 +81,19 @@
           <tbody>
             <tr>
               <td>Starting Salary</td>
-              <td></td>
+              <td>{{salary}}</td>
             </tr>
             <tr>
               <td>Save for 401</td>
-              <td></td>
+              <td>{{save401k}}</td>
             </tr>
             <tr>
               <td>Company Match 401</td>
-              <td></td>
+              <td>{{company401k}}</td>
             </tr>
             <tr>
               <td>Total 401</td>
-              <td></td>
+              <td>{{total401k}}</td>
             </tr>
           </tbody>
         </table>
@@ -108,19 +108,19 @@
           <tbody>
             <tr>
               <td>Federal Tax</td>
-              <td></td>
+              <td>{{fed_tax}}</td>
             </tr>
             <tr>
               <td>State Tax</td>
-              <td></td>
+              <td>{{st_tax}}</td>
             </tr>
             <tr>
               <td>Fica Tax</td>
-              <td></td>
+              <td>{{fica_tax}}</td>
             </tr>
             <tr>
               <td>Total Taxes</td>
-              <td></td>
+              <td>{{tax}}</td>
             </tr>
           </tbody>
         </table>
@@ -135,35 +135,35 @@
           <tbody>
             <tr>
               <td>Usable Anual Salary </td>
-              <td></td>
+              <td>{{usable_annual_salary}}</td>
             </tr>
             <tr>
-              <td>Charity Costs</td>
-              <td></td>
+              <td>Tithe or Charity</td>
+              <td>{{tithe_or_charity_cost}}</td>
             </tr>
             <tr>
               <td>Housing Costs</td>
-              <td></td>
+              <td>{{housing_cost}}</td>
             </tr>
             <tr>
               <td>Food Costs</td>
-              <td></td>
+              <td>{{food_cost}}</td>
             </tr>
             <tr>
               <td>Clothing Costs</td>
-              <td></td>
+              <td>{{clothing_cost}}</td>
             </tr>
             <tr>
               <td>Car Costs</td>
-              <td></td>
+              <td>{{car_cost}}</td>
             </tr>
             <tr>
               <td>Digital Costs</td>
-              <td></td>
+              <td>{{digital_cost}}</td>
             </tr>
             <tr>
               <td>Misc. Costs</td>
-              <td></td>
+              <td>{{misc_costs}}</td>
             </tr>
           </tbody>
         </table>
@@ -180,15 +180,15 @@
           <tbody>
             <tr>
               <td>Salary After Static Costs</td>
-              <td></td>
+              <td>{{afterstatic_annual_salary}}</td>
             </tr>
             <tr>
               <td>Money to Invest</td>
-              <td></td>
+              <td>{{investment_money}}</td>
             </tr>
             <tr>
               <td>Discretionary Expenses</td>
-              <td></td>
+              <td>{{discretionary_expenses}}</td>
             </tr>
           </tbody>
         </table>

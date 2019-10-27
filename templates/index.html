@@ -175,7 +175,7 @@
       <br />
       <p>Age in years</p>
       <p2>
-        <input type="text" name="age" placeholder="25"> years
+        <input type="text" name="age" placeholder="20"> years
       </p2>
       <br>
       <p>State of Residence</p>
@@ -237,31 +237,48 @@
   <br>
   <button class="collapsible" >Additional Info & Options (For a plan better tailored to you!)</button>
   <div class="content">
-  <br>
-  <p>Filing Status:</p>
-  <p>
-    <input type="radio" name="filingstatus" value="single" checked> Single<br>
-    <input type="radio" name="filingstatus" value="married"> Married<br>
-    <input type="radio" name="filingstatus" value="married, filing separately"> Married, Filing Separately<br>
-    <input type="radio" name="filingstatus" value="head of household"> Head of Household</p>
-  <br>
-  <p>Money in Savings, in USD:</p>
-  <div>
-    <p>$ <input type="text" name="moneysavings" placeholder="15000"> <br> </p>
     <br>
-<p>Fund Type:</p>
-    <input type="radio" name="fundtype" value="openend" checked> Open-Ended<br>
-    <input type="radio" name="fundtype" value="etf"> ETF<br>
-    <input type="radio" name="fundtype" value="either"> Either</p>
-  <br>
-    <input type="checkbox" name="divfunds" value="onlydivfunds"> Only Diversified Funds</p>
-  <br>
-    <input type="checkbox" name="401kmatch" value="employer401kmatch"> Employer Matches 401(k)</p>
-  <br>
+    <p>Filing Status:</p>
+    <p>
+      <input type="radio" name="filingstatus" value="single" checked> Single<br>
+      <input type="radio" name="filingstatus" value="married"> Married<br>
+      <input type="radio" name="filingstatus" value="married, filing separately"> Married, Filing Separately<br>
+      <input type="radio" name="filingstatus" value="head of household"> Head of Household
+    </p>
+    <br>
+    <p>Money in Savings, in USD:</p>
+    <div>
+      <p>$ <input type="text" name="moneysavings" placeholder="15000"> <br> </p>
+      <br>
+    </div>
+    <p>Fund Type:</p>
+      <input type="radio" name="fundtype" value="EO" checked />Open-Ended<br>
+      <input type="radio" name="fundtype" value="EF" />ETF<br>
+      <input type="radio" name="fundtype" value="None" />Either</p>
+    <br>
+      <input type="checkbox" name="divfunds" value="onlydivfunds" />Only Diversified Funds
+    <br>
+      <input type="checkbox" name="match401k" value="employer401kmatch" /> Employer Matches 401(k)>
+    <br>
+
   </div>
 
-
+<div class="container">
+  <div class="row" >
+    <div class="col-sm-12 text-center">
+      <br />
+      <input type="submit" class="btn btn-success stretched-link">
+    </div>
   </div>
+</div>
+</form>
+
+<!-- FOOTER -->
+
+<div class="jumbotron text-center footerbase" style="margin-bottom:0" id="footer">
+  <h2 class="fancytext2">Built at YHACK '19</h2>
+  <p><b>By <a href="https://www.github.com/aramachandran7" target="_blank">Adi</a>, <a href="https://www.github.com/intermezzio" target="_blank">Andrew</a>, and <a href="https://www.github.com/rohilbagarwal" target="_blank">Rohil</a></b></p>
+</div>
 
   <script>
   var coll = document.getElementsByClassName("collapsible");
@@ -280,23 +297,5 @@
   }
   </script>
   
-</div>
-
-<div class="container">
-  <div class="row" >
-    <div class="col-sm-12 text-center">
-      <br />
-      <input type="submit" class="btn btn-success stretched-link">SUBMIT!</a>
-    </div>
-  </div>
-</div>
-</form>
-
-<!-- FOOTER -->
-
-<div class="jumbotron text-center footerbase" style="margin-bottom:0" id="footer">
-  <h2 class="fancytext2">Built at YHACK '19</h2>
-  <p><b>By <a href="https://www.github.com/aramachandran7" target="_blank">Adi</a>, <a href="https://www.github.com/intermezzio" target="_blank">Andrew</a>, and <a href="https://www.github.com/rohilbagarwal" target="_blank">Rohil</a></b></p>
-</div>
 </body>
 </html>

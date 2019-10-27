@@ -18,7 +18,7 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 app.config['SECRET_KEY'] = '1243bed87ac87eb87a87ed'
 
-
+temp = "tomato"
 driver = webdriver.Firefox()
 
 @app.route("/", methods=["GET", "POST"])
@@ -31,30 +31,41 @@ def homepage():
 
 @app.route("/index2.html", methods=["GET", "POST"])
 def calculate():
+	global temp
+	print("how")
 	if request.method == "POST":
+		print("wow")
 		valid = True
-		req = request.form
-		salary = req["salary"]
+		temp = req = request.form
+		print(req)
+		salary = float(req["salary"] if req["salary"] else 0)
 		if salary <= 0:
 			valid = False
+
 		state = req["state"]
 		status = req["filingstatus"]
-		savings = req["moneysavings"]
+		savings = float(req["moneysavings"] if req["moneysavings"] else 0)
 		if savings < 0:
 			valid = False
-		# age = req['age']
-		match401k = req["401kmatch"]
+
+		age = int(req['age'] if req['age'] else 0)
+		if not 5 < age < 40:
+			valid = False
+		print("im alive")
+		match401k = req["match401k"]
+		print("match401k:", match401k)
 		year = datetime.datetime.now().year
 
 		if not valid:
 			return redirect("/index3.html")
-		
-		spreads = make_spreadsheet()
+
+		spreads = make_spreadsheet(salary, status=status, state=state, savings=savings, age=age, year=year, match401k=match401k)
+		print(budget)
 		if not spreads:
 			return redirect("/index3.html")
 
 		budget, spreadsheetData = spreads
-
+		return render_template("index2.html")#, **budget)
 	return render_template("index2.html")
 
 @app.route("/index3.html")
@@ -283,7 +294,7 @@ def annuity(initial, flow, interest, years=1):
 	return flow * ((1+interest) ** years - 1) / interest + initial * (1+interest) ** years
 
 if __name__ == "__main__":
-	app.run()
+	app.run(debug=True)
 
 
 # def priceFromTickers(ticker):

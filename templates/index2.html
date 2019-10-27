@@ -1,0 +1,276 @@
+<!-- bootstrap setup -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>The Sustainable Wealth Initiative</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat|Poppins&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <style>
+  .fakeimg {
+    height: 200px;
+    background: #aaa;
+  }
+  </style>
+</head>
+<body>
+
+<!-- title -->
+
+<div class=" greenback" >
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-8" >
+        <br />
+        <h1 style="color:white">| the sustainable wealth initiative |</h1>
+        <br /> 
+        <p style="color:white"><i> Profit off the <b>growth</b> of sustainable industries. <br />  Put your <b>money</b> where you <b>mouth</b> is. </i> </p> 
+        <br />
+      </div>
+      <div class="col-sm-4" style="margin-top:10px">
+          <div class="side-image" >
+            <img src="images/logo.png" alt="rain, rain" class="side-image" style="height:16em">
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- navbar -->
+
+<nav class="navbar navbar-expand-sm centered container navbar-dark">
+  <ul>
+  <li class="navtext"><a href="index.html">˂ back home</a> </li>
+  <div class="underbar"></div>
+  </ul>  
+</nav>
+
+<!-- return the results of the calculations -->
+
+<div class="container-fluid" style="margin-top:80px" id="results">
+    <div class="row">
+      <div class="col-sm-4">
+        <h2 style="color:#566263">Alright! Check it out!</h2>
+        <p>
+          According to our calculations, you seem to be on track to becoming a wealthy, sustainable investor!
+        </p>
+        <!-- DATA, RECOMMENDATIONS HERE -->
+
+
+        <P>
+          Check out our sustainable investment recommendations too!
+        </P>
+        <!-- collapsible -->
+
+        <button class="collapsible" >Additional Info & Options (For a plan better tailored to you!)</button>
+        <div class="content">
+        <br>
+        <!-- 1 -->
+        <table class="table table-dark table-hover">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Starting Salary</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Save for 401</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Company Match 401</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Total 401</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- 2 -->
+        <table class="table table-dark table-hover">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Federal Tax</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>State Tax</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Fica Tax</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Total Taxes</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- 3 -->
+        <table class="table table-dark table-hover">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Usable Anual Salary </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Charity Costs</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Housing Costs</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Food Costs</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Clothing Costs</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Car Costs</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Digital Costs</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Misc. Costs</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- 4 -->
+
+        <table class="table table-dark table-hover">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Salary After Static Costs</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Money to Invest</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Discretionary Expenses</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+        for (i = 0; i < coll.length; i++) {
+          coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight){
+              content.style.maxHeight = null;
+            } else {
+              content.style.maxHeight = content.scrollHeight + "px";
+            } 
+          });
+        }
+        </script>
+        </div>
+        <br>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="card">
+          <!-- <img class="card-img-top" src="images/tree2.png" alt="Card image" > -->
+          <div class="card-body">
+            <h4 class="card-title">TICKER name</h4>
+            <p class="card-text">Fund Name </p>
+            <p class="card-text">Carbon Footprint: </p>
+            <p class="card-text">Fossil Fuel Grade: </p>
+            <a href="#" class="btn btn-success stretched-link">Check Price</a>
+          </div>
+        </div>
+        <br />
+        <div class="card">
+          <!-- <img class="card-img-top" src="images/tree2.png" alt="Card image" > -->
+          <div class="card-body">
+            <h4 class="card-title">TICKER name</h4>
+            <p class="card-text">Fund Name </p>
+            <p class="card-text">Carbon Footprint: </p>
+            <p class="card-text">Fossil Fuel Grade: </p>
+            <a href="#" class="btn btn-success stretched-link">Check Price</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="card">
+          <!-- <img class="card-img-top" src="images/tree2.png" alt="Card image" > -->
+          <div class="card-body">
+            <h4 class="card-title">TICKER name</h4>
+            <p class="card-text">Fund Name </p>
+            <p class="card-text">Carbon Footprint: </p>
+            <p class="card-text">Fossil Fuel Grade: </p>
+            <a href="#" class="btn btn-success stretched-link">Check Price</a>
+          </div>
+        </div>
+        <br />
+        <div class="card">
+          <!-- <img class="card-img-top" src="images/tree2.png" alt="Card image" > -->
+          <div class="card-body">
+            <h4 class="card-title">TICKER name</h4>
+            <p class="card-text">Fund Name </p>
+            <p class="card-text">Carbon Footprint: </p>
+            <p class="card-text">Fossil Fuel Grade: </p>
+            <a href="#" class="btn btn-success stretched-link">Check Price</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="jumbotron text-center footerbase" style="margin-bottom:0" id="footer">
+  <h2 class="fancytext2">Built at YHACK '19</h2>
+  <p><b>By <a href="https://www.github.com/aramachandran7" target="_blank">Adi</a>, <a href="https://www.github.com/intermezzio" target="_blank">Andrew</a>, and <a href="https://www.github.com/rohilbagarwal" target="_blank">Rohil</a></b></p>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+

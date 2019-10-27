@@ -1,0 +1,334 @@
+
+/* NOTES */
+
+/* font-family: 'Montserrat', sans-serif;
+font-family: 'Roboto Mono', monospace; */
+
+
+/* ELEMENTS */
+html {
+  scroll-behavior: smooth;
+  background-color: #F4F4F4
+}
+
+h1, h2 {
+  font-family: 'Montserrat', sans-serif;
+  color:#566263;
+}
+
+p {
+  font-family: 'Poppins', sans-serif;
+  color: #7D8F91;
+
+}
+
+/* navbar */
+
+ul {
+  list-style-type: none;
+  position: absolute;
+  left: 20px;
+  top: 20px;
+}
+.underbar {
+  width: 0;
+  height: 5px;
+  background: rgba(100, 100, 200, 0);
+  top: 20px;
+  position: absolute;
+  -webkit-transition: 0.5s ease;
+}
+li {
+  width: 120px;
+  float: left;
+  -webkit-transition: 0.5s ease;
+  cursor: pointer;
+}
+/* li:hover {
+  text-shadow: 0px -2px 0px #000000, 0 0 5px rgba(255, 255, 255, 0.8), 0 -4px 15px rgba(255, 255, 255, 0.5);
+} */
+li:nth-of-type(1):hover ~ .underbar {
+  left: 40px;
+  width: 80px;
+  background: #1CFF19;
+}
+li:nth-of-type(2):hover ~ .underbar {
+  left: 160px;
+  width: 65px;
+  background: #17CD15;
+}
+li:nth-of-type(3):hover ~ .underbar {
+  left: 280px;
+  width: 55px;
+  background: #159E14;
+}
+li:nth-of-type(4):hover ~ .underbar {
+  left: 400px;
+  width: 80px;
+  background: #10680F;
+}
+
+
+/* Loading Animation */
+.wrap {
+	 position: absolute;
+	 top: 50%;
+	 left: 50%;
+	 transform: translate(-50%, -50%);
+}
+.text {
+	 color: #17CD15;
+	 display: inline-block;
+	 margin-left: 5px;
+}
+.bounceball {
+	 position: relative;
+	 display: inline-block;
+	 height: 37px;
+	 width: 15px;
+}
+.bounceball:before {
+	 position: absolute;
+	 content: '';
+	 display: block;
+	 top: 0;
+	 width: 15px;
+	 height: 15px;
+	 border-radius: 50%;
+	 background-color: #17CD15;
+	 transform-origin: 50%;
+	 animation: bounce 500ms alternate infinite ease;
+}
+@keyframes bounce {
+	 0% {
+		 top: 30px;
+		 height: 5px;
+		 border-radius: 60px 60px 20px 20px;
+		 transform: scaleX(2);
+	}
+	 35% {
+		 height: 15px;
+		 border-radius: 50%;
+		 transform: scaleX(1);
+	}
+	 100% {
+		 top: 0;
+	}
+}
+ 
+
+/* loading animation ^^ */
+
+
+
+
+.centered {
+  display: flex;
+  justify-content: center;
+}
+
+.bordered {
+  border-color:green;
+  border-width:2px;
+  border-style: solid;
+  border-radius:2px;
+  border: .1em;
+  border-radius: .12em;
+  border-color:#566263;
+
+}
+
+side-image {
+  height: 75px;
+  width: 75px;
+  background: #aaa;
+
+}
+/* navbar ^^ */
+
+@media screen and (max-width:1275px) {  
+  .side-image img {
+    display: none;
+  }
+}
+
+
+/* CLASSES */
+
+.greenback {
+  background-color: #566263;
+  
+}
+
+.footerbase {
+  background-color: #566263;
+
+
+  /* position: relative; */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 50%;
+  /* background-attachment: fixed; */
+  background: url(../images/tree.png);
+  /* min-height: 100%; */
+  /* background-position: 5% 0%;  */
+  /* display: flex;
+  justify-content:flex-start;
+  align-items: center; */
+}
+
+
+
+
+.navtext {
+  font-family: 'Montserrat', sans-serif;
+  text-transform: lowercase;
+  font-size: 13px;
+
+
+
+}
+
+
+/* .btn-grad {background-image: linear-gradient(to right, #AAFFA9 0%, #11FFBD 51%, #AAFFA9 100%)}
+.btn-grad:hover { background-position: right center; } */
+
+
+.fancytext {
+		color: #fff;
+		text-transform: uppercase;
+		font-weight: 400;
+		font-family: 'Montserrat', sans-serif;
+		/* background: linear-gradient(to right, #e72a3a 10%, #fff 50%, #5bdaff 60%); */
+
+    background: linear-gradient(147deg, #FFE53B 0%, #FF2525 74%);
+		background-size: auto auto;
+		background-clip: border-box;
+		background-size: 200% auto;
+		color: #fff;
+		background-clip: text;
+		text-fill-color: transparent;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		animation: textclip 1.5s linear infinite;
+		display: inline-block;
+
+    background-color: #566263;
+    text-align: center;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    padding: 10px;
+    border-radius: 3px;
+    margin: 10px;
+
+	}
+
+.fancytext2 {
+		color: #fff;
+		text-transform: uppercase;
+		font-weight: 400;
+		font-family: 'Montserrat', sans-serif;
+		/* background: linear-gradient(to right, #e72a3a 10%, #fff 50%, #5bdaff 60%); */
+
+    background: linear-gradient(90deg, rgba(20,88,212,1) 0%, rgba(117,14,149,1) 29%, rgba(1,0,20,1) 58%);
+		background-size: auto auto;
+		background-clip: border-box;
+		background-size: 200% auto;
+		color: #fff;
+		background-clip: text;
+		text-fill-color: transparent;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		animation: textclip 1.5s linear infinite;
+		display: inline-block;
+
+    background-color: #566263;
+    text-align: center;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    padding: 10px;
+    border-radius: 3px;
+    margin: 10px;
+
+	}
+
+
+.collapsible {
+  font-family: 'Poppins', sans-serif;
+  color: rgb(168, 190, 192);
+  background-color: rgba(3,139,11,1);
+  border: 2px solid rgb(5, 201, 18);
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  text-align: center;
+  outline: none;
+  font-size: 15px;
+  transition: background-color 0.2s color 0.2s;
+  -moz-transition: background-color 0.2s color 0.2s;
+}
+
+.active, .collapsible:hover {
+  background-color: #555;
+  border: 2px solid rgb(161, 161, 161);
+  color: white;
+  text-align: center;
+  transition: background-color 0.2s color 0.2s;
+  -moz-transition: background-color 0.2s color 0.2s;
+}
+
+.collapsible:after {
+  content: '\002B';
+  color: white;
+  font-weight: bold;
+  float: right;
+  text-align: center;
+  transition: background-color 0.2s color 0.2s;
+  -moz-transition: background-color 0.2s color 0.2s;
+}
+
+.active:after {
+  content: "\2212";
+}
+
+.content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+}
+
+select {
+  padding: 2px 2px;
+  border: 2px solid rgb(212, 212, 212);
+  border-radius: 4px;
+  background-color: #f1f1f1;
+}
+
+p2 {
+  border: 2px solid rgb(212, 212, 212);
+  border-radius: 4px;
+  font-family: 'Poppins', sans-serif;
+  color: #7D8F91;
+  width: 100%;
+  height: 150px;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+}
+
+input{
+  font-family: 'Poppins', sans-serif;
+  color: #7D8F91;
+}
+
+form{
+  padding: 2px 2px;
+}

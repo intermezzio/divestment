@@ -22,20 +22,15 @@ driver = webdriver.Firefox()
 
 @app.route("/", methods=["GET", "POST"])
 def homepage():
-	"""
-	Take in data from the form and calculate stuff with it
-	"""
-	if request.method == "POST":
-		req = request.form
-		
-
-
-	return render_template("public/index.html")
+	return render_template("index.html")
 
 # @app.route("/calculate", methods=["GET", "POST"])
 # def calculate():
 # 	return render_template("public/index.html")
 
+@app.route("/index4.html", methods=["GET", "POST"])
+def calculate():
+	return render_template("index4.html")
 
 def make_spreadsheet(salary, status="single", state="CT", savings=0, age=20, perc401k=10, match401k=True, year=2019, fica=True):
 	"""
@@ -259,7 +254,7 @@ def annuity(initial, flow, interest, years=1):
 	return flow * ((1+interest) ** years - 1) / interest + initial * (1+interest) ** years
 
 if __name__ == "__main__":
-	pass
+	app.run()
 
 
 # def priceFromTickers(ticker):

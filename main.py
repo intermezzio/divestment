@@ -36,7 +36,10 @@ def calculate():
 	if request.method == "POST":
 		print("wow")
 		valid = True
-		temp = req = request.form
+		req = request.form
+		print(req)
+		print(request.data)
+		temp = req
 		print(req)
 		salary = float(req["salary"] if req["salary"] else 0)
 		if salary <= 0:
@@ -60,12 +63,13 @@ def calculate():
 			return redirect("/index3.html")
 
 		spreads = make_spreadsheet(salary, status=status, state=state, savings=savings, age=age, year=year, match401k=match401k)
-		print(budget)
 		if not spreads:
 			return redirect("/index3.html")
 
 		budget, spreadsheetData = spreads
-		return render_template("index2.html")#, **budget)
+		print(budget)
+		
+		return render_template("index2.html", **budget)
 	return render_template("index2.html")
 
 @app.route("/index3.html")
@@ -88,6 +92,7 @@ def make_spreadsheet(salary, status="single", state="CT", savings=0, age=20, per
 
 	usable_annual_salary = salary - save401k - fed_tax - st_tax - fica_tax
 
+	usable_annual_salary = round(usable_annual_salary, 2)
 	# Expenses
 	housing_cost = round(usable_annual_salary * 0.25, 2)
 	tithe_or_charity_cost = round(usable_annual_salary * 0.1, 2)
@@ -99,6 +104,7 @@ def make_spreadsheet(salary, status="single", state="CT", savings=0, age=20, per
 
 	# salary to make money with
 	afterstatic_annual_salary = usable_annual_salary - housing_cost - tithe_or_charity_cost - food_cost - clothing_cost - car_cost - digital_cost - misc_cost
+	afterstatic_annual_salary = round(afterstatic_annual_salary, 2)
 	print("afterstatic_annual_salary:",afterstatic_annual_salary)
 	
 	optimal_savings_left = max(usable_annual_salary / 2 - savings,0) # 6 months of salary in savings
@@ -122,7 +128,7 @@ def make_spreadsheet(salary, status="single", state="CT", savings=0, age=20, per
 	if investment_money > afterstatic_annual_salary:
 		return False
 
-	discretionary_expenses = investment_money - afterstatic_annual_salary
+	discretionary_expenses = afterstatic_annual_salary -investment_money 
 
 	budget = {
 		"salary": salary,

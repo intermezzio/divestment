@@ -25,6 +25,10 @@ driver = webdriver.Firefox()
 def homepage():
 	return render_template("index.html")
 
+@app.route("/index.html", methods=["GET", "POST"])
+def also_homepage():
+	return render_template("index.html")
+
 # @app.route("/calculate", methods=["GET", "POST"])
 # def calculate():
 # 	return render_template("public/index.html")
@@ -55,7 +59,10 @@ def calculate():
 		if not 5 < age < 40:
 			valid = False
 		print("im alive")
-		match401k = req["match401k"]
+		try: 
+			match401k = req["match401k"]
+		except Exception:
+			match401k = False
 		print("match401k:", match401k)
 		year = datetime.datetime.now().year
 
@@ -69,7 +76,19 @@ def calculate():
 		budget, spreadsheetData = spreads
 		print(budget)
 		
-		return render_template("index2.html", **budget)
+		# searchStocks(fundType = None, diversified = False, sustainable = False, NUM_STOCKS = 4)
+
+		fundType = req["fundtype"]
+		try:
+			diversified = req["divfunds"]
+		except Exception:
+			diversified = False
+
+		stocksData = searchStocks(fundType=fundType, diversified=diversified)
+
+		print(stocksData)
+
+		return render_template("index2.html", stocksData=stocksData, **budget)
 	return render_template("index2.html")
 
 @app.route("/index3.html")
@@ -123,12 +142,15 @@ def make_spreadsheet(salary, status="single", state="CT", savings=0, age=20, per
 	investment_money = solveset(Eq(annuity(savings, 0, savings_interest_rate, years_to_40) + annuity(0, ivst, invest_interest_rate, years_to_40) + annuity(0, total401k, save401k_interest_rate, years_to_40),1e6), ivst)
 	
 	investment_money = tuple(investment_money)[0] # convert data types
-	investment_money = round(investment_money,2) + 0.01
+	investment_money = round(investment_money, 2) + 0.01
+	investment_money = round(investment_money, 2)
 	print("investment_money:", investment_money)
 	if investment_money > afterstatic_annual_salary:
 		return False
 
 	discretionary_expenses = afterstatic_annual_salary -investment_money 
+
+	discretionary_expenses = round(discretionary_expenses, 2)
 
 	budget = {
 		"salary": salary,

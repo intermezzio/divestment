@@ -212,51 +212,22 @@
       </div>
 
       <div class="col-sm-4">
+        {% for indx, row in stocksData.iterrows() %}
         <div class="card">
-          <!-- <img class="card-img-top" src="images/tree2.png" alt="Card image" > -->
+          <!-- <img class="card-img-top" src="images/tree2.png" alt="Card image" > 
+          grade, ftprnt, ticker, fund, url
+        -->
           <div class="card-body">
-            <h4 class="card-title">TICKER name</h4>
-            <p class="card-text">Fund Name </p>
-            <p class="card-text">Carbon Footprint: </p>
-            <p class="card-text">Fossil Fuel Grade: </p>
-            <a href="#" class="btn btn-success stretched-link">Check Price</a>
+            <h4 class="card-title">{{row[2]}}</h4>
+            <p class="card-text">{{row[3]}}</p>
+            <p class="card-text">Carbon Footprint: {{row[1]}}</p>
+            <p class="card-text">Fossil Fuel Grade: {{row[0]}}</p>
+            <a href="{{row[4]}}" class="btn btn-success stretched-link">Check Price</a>
           </div>
         </div>
         <br />
-        <div class="card">
-          <!-- <img class="card-img-top" src="images/tree2.png" alt="Card image" > -->
-          <div class="card-body">
-            <h4 class="card-title">TICKER name</h4>
-            <p class="card-text">Fund Name </p>
-            <p class="card-text">Carbon Footprint: </p>
-            <p class="card-text">Fossil Fuel Grade: </p>
-            <a href="#" class="btn btn-success stretched-link">Check Price</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-sm-4">
-        <div class="card">
-          <!-- <img class="card-img-top" src="images/tree2.png" alt="Card image" > -->
-          <div class="card-body">
-            <h4 class="card-title">TICKER name</h4>
-            <p class="card-text">Fund Name </p>
-            <p class="card-text">Carbon Footprint: </p>
-            <p class="card-text">Fossil Fuel Grade: </p>
-            <a href="#" class="btn btn-success stretched-link">Check Price</a>
-          </div>
-        </div>
-        <br />
-        <div class="card">
-          <!-- <img class="card-img-top" src="images/tree2.png" alt="Card image" > -->
-          <div class="card-body">
-            <h4 class="card-title">TICKER name</h4>
-            <p class="card-text">Fund Name </p>
-            <p class="card-text">Carbon Footprint: </p>
-            <p class="card-text">Fossil Fuel Grade: </p>
-            <a href="#" class="btn btn-success stretched-link">Check Price</a>
-          </div>
-        </div>
+        {% endfor %}
+        
       </div>
     </div>
   </div>

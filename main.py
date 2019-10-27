@@ -8,6 +8,9 @@ from time import sleep
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from xml.etree import ElementTree
+from multiprocessing import Process
+from sympy import solveset, Eq, symbols
 
 from flask import Flask, flash, redirect, render_template, request, session, abort, url_for, Response, send_file
 app = Flask(__name__)
@@ -34,21 +37,95 @@ def homepage():
 # 	return render_template("public/index.html")
 
 
-def make_spreadsheet(salary, savings=0, age=20, perc401k=10, match401k=True):
+def make_spreadsheet(salary, status="single", state="CT", savings=0, age=20, perc401k=10, match401k=True, year=2019, fica=True):
 	"""
 	Spreadsheet Data Calculations
 
 	"""
-	spreadsheetData = pd.DataFrame(columns=["Month", "Age", "Salary", "401k"])
-
-	monthly_salary = salary / 12
 	
 	# 401k
-	save401k = monthly_salary * perc401k
+	save401k = salary * perc401k / 100
 	company401k = save401k if match401k else 0
 	total401k = save401k + company401k
 
-	monthly_salary_minus_401k = monthly_salary - save401k
+	# Taxes
+	fed_tax, st_tax, fica_tax = getAllIncomeTax(income=salary-save401k, status=status, state=state, year=year, fica=fica)
+
+	usable_annual_salary = salary - save401k - fed_tax - st_tax - fica_tax
+
+	# Expenses
+	housing_cost = round(usable_annual_salary * 0.25, 2)
+	tithe_or_charity_cost = round(usable_annual_salary * 0.1, 2)
+	food_cost = 3600
+	clothing_cost = 1200
+	car_cost = 4200
+	digital_cost = 1800
+	misc_cost = 3000
+
+	# salary to make money with
+	afterstatic_annual_salary = usable_annual_salary - housing_cost - tithe_or_charity_cost - food_cost - clothing_cost - car_cost - digital_cost - misc_cost
+	print("afterstatic_annual_salary:",afterstatic_annual_salary)
+	
+	optimal_savings_left = max(usable_annual_salary / 2 - savings,0) # 6 months of salary in savings
+
+	years_to_40 = 40-age
+
+	savings_interest_rate = .001
+
+	save401k_interest_rate = .05
+
+	invest_interest_rate = .08
+
+	# annuity (initial, flow, interest, years)
+	# solve for maximized discretionary spending
+	ivst = symbols('ivst')
+	investment_money = solveset(Eq(annuity(savings, 0, savings_interest_rate, years_to_40) + annuity(0, ivst, invest_interest_rate, years_to_40) + annuity(0, total401k, save401k_interest_rate, years_to_40),1e6), ivst)
+	
+	investment_money = tuple(investment_money)[0] # convert data types
+	investment_money = round(investment_money,2) + 0.01
+	print("investment_money:", investment_money)
+	if investment_money > afterstatic_annual_salary:
+		return False
+
+	discretionary_expenses = investment_money - afterstatic_annual_salary
+
+	budget = {
+		"salary": salary,
+		"save401k": save401k,
+		"company401k": company401k,
+		"total401k": total401k,
+
+		"fed_tax": fed_tax,
+		"st_tax": st_tax,
+		"fica_tax": fica_tax,
+		"tax": fed_tax + st_tax + fica_tax,
+
+		"usable_annual_salary": usable_annual_salary,
+		"tithe_or_charity_cost": tithe_or_charity_cost,
+		"housing_cost": housing_cost,
+		"food_cost": food_cost,
+		"clothing_cost": clothing_cost,
+		"car_cost": car_cost,
+		"digital_cost": digital_cost,
+		"misc_cost": misc_cost,
+
+		"afterstatic_annual_salary": afterstatic_annual_salary,
+		"investment_money": investment_money,
+		"discretionary_expenses": discretionary_expenses
+	}
+
+	spreadsheetData = pd.DataFrame(columns=["Year", "Age", "401k", "Savings", "Investments"])
+	spreadsheetData.loc[0] = [year, age, 0, savings, 0]
+	for i in range(age,40):
+		curr_year, curr_age, curr_401k, curr_savings, curr_investments = spreadsheetData.loc[spreadsheetData.shape[0]-1]
+		curr_year += 1
+		curr_age += 1
+		curr_401k = annuity(curr_401k, total401k, save401k_interest_rate)
+		curr_savings = annuity(curr_savings, 0, savings_interest_rate)
+		curr_investments = annuity(curr_investments, investment_money, invest_interest_rate)
+		spreadsheetData.loc[spreadsheetData.shape[0]] = [curr_year, curr_age, curr_401k, curr_savings, curr_investments]
+
+	return budget, spreadsheetData
 
 
 def getFederalIncomeTax(income, status="single"):
@@ -83,10 +160,10 @@ def getAllIncomeTax(income, status="single", state="CT", year=2019, fica=True):
 	tax_annual = response.json()["annual"]
 
 	fed_tax, st_tax, fica_tax = [tax_annual[form]["amount"] or 0 for form in ("federal", "state", "fica")]
-	print(fed_tax, st_tax, fica_tax)
-	return sum([fed_tax, st_tax, (fica_tax if fica else 0)])
+	print("Taxes:", fed_tax, st_tax, fica_tax)
+	return fed_tax, st_tax, (fica_tax if fica else 0)
 
-def searchStocks(fundType = None, diversified = False, sustainable = False):
+def searchStocks(fundType = None, diversified = False, sustainable = False, NUM_STOCKS = 4):
 	"""
 	returns a list of tickers and info about stocks in the form of a DataFrame
 	fundType: None, FO (Open Ended Funds), FE (ETFs)
@@ -108,13 +185,29 @@ def searchStocks(fundType = None, diversified = False, sustainable = False):
 	clickButton(driver, b_id="tutorial-close___3g8eR")
 	clickButton(driver, b_id="more-funds___2L89j")
 	clickButton(driver, b_id="more-funds___2L89j")
-	clickButton(driver, b_id="more-funds___2L89j")	
 
 	sleep(1)
 	htmltable = delayResponse()
 
 	stocksDF = pd.read_html(htmltable)[0]
 	print(stocksDF.shape[0], "funds")
+	print(stocksDF.columns, "columns")
+	stocksDF.drop(["Fossil fuels", "Clean200", "Sustainability mandate", "Net assets", "Group"], axis=1, inplace=True)
+
+	fundNames = list()
+
+	shortenedStocksDF = pd.DataFrame(columns=stocksDF.columns)
+
+	for i in range(stocksDF.shape[0]):
+		if len(fundNames) == NUM_STOCKS:
+			break
+		fname = stocksDF.loc[i,"Fund name"].split(" ")[0]
+		if fname in fundNames:
+			continue
+		else:
+			fundNames.append(fname)
+			shortenedStocksDF.loc[shortenedStocksDF.shape[0]] = stocksDF.loc[i]
+
 	# response_rendered = response.html.render()
 	# response_html = BeautifulSoup(response, 'html.parser')
 	
@@ -123,25 +216,18 @@ def searchStocks(fundType = None, diversified = False, sustainable = False):
 
 	tickerFromName = np.vectorize(lambda name: name[name.index("Ticker: ")+8:])
 	removeTicker = np.vectorize(lambda name: name[:name.index("Ticker: ")])
+	tickerURL = np.vectorize(lambda ticker: f"https://www.marketwatch.com/investing/stock/{ticker}")
 
-	stocksDF["Ticker"] = tickerFromName(stocksDF["Fund name"])
-	stocksDF["Fund"] = removeTicker(stocksDF["Fund name"])
+	
 
-	stocksDF.drop("Fund name", axis=1, inplace=True)
+	shortenedStocksDF["Ticker"] = tickerFromName(shortenedStocksDF["Fund name"])
+	shortenedStocksDF["Fund"] = removeTicker(shortenedStocksDF["Fund name"])
+	shortenedStocksDF["URL"] = tickerURL(shortenedStocksDF["Ticker"])
 
-	return stocksDF
+	shortenedStocksDF.drop("Fund name", axis=1, inplace=True)
 
-def priceFromTicker(tickers):
-	"""
-	get a price for a ticker
+	return shortenedStocksDF
 
-	"""
-	api_key = open("keys/iexcloud.txt", 'r').read().strip()
-	stockJSON = requests.get(f"https://sandbox.iexapis.com/stable/stock/AAAU/quote?token={api_key}").json()
-
-	tickerprice = stockJSON["latestPrice"]
-	# csv_data = requests.get()
-	return tickerprice
 
 def clickButton(driver, b_id="tutorial-close___3g8eR", tries=0):
 	try:
@@ -169,5 +255,42 @@ def delayResponse(tries=0):
 		print("delayResponse")
 		delayResponse(tries=tries+1)
 
+def annuity(initial, flow, interest, years=1):
+	return flow * ((1+interest) ** years - 1) / interest + initial * (1+interest) ** years
+
 if __name__ == "__main__":
 	pass
+
+
+# def priceFromTickers(ticker):
+# 	"""
+# 	get a price for a ticker
+
+# 	"""
+# 	# api_key = open("keys/iexcloud.txt", 'r').read().strip()
+# 	# stockJSON = requests.get(f"https://sandbox.iexapis.com/stable/stock/AAAU/quote?token={api_key}").json()
+# 	# # http://dev.markitondemand.com/MODApis/Api/v2/Quote?symbol=MSFT
+# 	# tickerprice = stockJSON["latestPrice"]
+# 	# # csv_data = requests.get()
+# 	response = requests.get(f"http://dev.markitondemand.com/MODApis/Api/v2/Quote?symbol={ticker}")
+# 	stockXML = ElementTree.fromstring(response.content)
+# 	tickerprice = float(stockXML.find("LastPrice").text)
+# 	return tickerprice
+
+# pTickers = np.vectorize(priceFromTickers)
+
+
+# def testPriceFromTickers(tickers):
+# 	"""
+# 	get a price for a ticker
+
+# 	"""
+# 	api_key = open("keys/worldtradingdata.txt", 'r').read().strip()
+# 	stocks = ",".join(tickers)
+# 	response = requests.get(f"https://api.worldtradingdata.com/api/v1/mutualfund?symbol={tickers}&api_token={api_key}").json()
+# 	return response
+# 	# prices = list()
+# 	# for stock in response["data"]:
+# 	# 	prices.append(stock["price"])
+
+# 	# return prices

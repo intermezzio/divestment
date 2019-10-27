@@ -11,6 +11,7 @@ from selenium.webdriver.common.keys import Keys
 from xml.etree import ElementTree
 from multiprocessing import Process
 from sympy import solveset, Eq, symbols
+import datetime
 
 from flask import Flask, flash, redirect, render_template, request, session, abort, url_for, Response, send_file
 app = Flask(__name__)
@@ -28,9 +29,37 @@ def homepage():
 # def calculate():
 # 	return render_template("public/index.html")
 
-@app.route("/index4.html", methods=["GET", "POST"])
+@app.route("/index2.html", methods=["GET", "POST"])
 def calculate():
-	return render_template("index4.html")
+	if request.method == "POST":
+		valid = True
+		req = request.form
+		salary = req["salary"]
+		if salary <= 0:
+			valid = False
+		state = req["state"]
+		status = req["filingstatus"]
+		savings = req["moneysavings"]
+		if savings < 0:
+			valid = False
+		# age = req['age']
+		match401k = req["401kmatch"]
+		year = datetime.datetime.now().year
+
+		if not valid:
+			return redirect("/index3.html")
+		
+		spreads = make_spreadsheet()
+		if not spreads:
+			return redirect("/index3.html")
+
+		budget, spreadsheetData = spreads
+
+	return render_template("index2.html")
+
+@app.route("/index3.html")
+def error_page():
+	return render_template("index3.html")
 
 def make_spreadsheet(salary, status="single", state="CT", savings=0, age=20, perc401k=10, match401k=True, year=2019, fica=True):
 	"""

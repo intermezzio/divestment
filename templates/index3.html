@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Poppins&display=swap" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -35,7 +35,7 @@
       <!-- <div class="col-sm-4"></div> -->
       <div class="col-sm-4" style="margin-top:10px">
           <div class="side-image" >
-            <img src="images/logo.png" alt="rain, rain" class="side-image" style="height:16em">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="rain, rain" class="side-image" style="height:16em">
           </div>
       </div>  
       
